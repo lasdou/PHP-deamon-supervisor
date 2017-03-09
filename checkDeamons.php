@@ -4,7 +4,7 @@ include('./deamon_functions.php');
 //get action passed by argument via CLI
 $action = isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : '';
 
-//get php deamon filename (relative to this script) passed by argument via CLI
+//get PHP deamon filename (relative to this script) passed by argument via CLI
 $deamon = isset($_SERVER['argv'][2]) ? $_SERVER['argv'][2] : '';
 
 if($deamon == '')
@@ -49,8 +49,8 @@ switch ($action) {
                 //restart deamon
                 if(stop_deamon($deamon) === true)
                 {
-                start_deamon($deamon);
-                echo ("$deamon modified relaunched.\n");
+                    start_deamon($deamon);
+                    echo ("$deamon modified relaunched.\n");
                 }
             }
         } else {
