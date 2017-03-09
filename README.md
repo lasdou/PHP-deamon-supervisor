@@ -5,13 +5,15 @@ You have to call it via PHP CLI (Command Line Interface)
 
 Like that : 
 
-To check deamon is running and relaunch it if not
+To check deamon is running and relaunch it if not :
+
   /usr/bin/php /path/to/script/checkDeamons.php check myDeamon.php
 
-To start deamon
+To start deamon :
+
   /usr/bin/php /path/to/script/checkDeamons.php check myDeamon.php
 
-To Stop deamon
+To Stop deamon :
   /usr/bin/php /path/to/script/checkDeamons.php check myDeamon.php
 
 Note : It has been wrotten to be executed in a Linux/Debian environnement
