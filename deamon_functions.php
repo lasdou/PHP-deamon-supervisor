@@ -66,8 +66,7 @@ function start_deamon($deamon) {
 /*
  * function to check if deamon has been modified
  */
-function is_deamon_modified($deamon)
-{
+function is_deamon_modified($deamon){
   $script = dirname(__FILE__) . '/'. $deamon;
 
   //check existence of script
