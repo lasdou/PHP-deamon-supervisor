@@ -36,17 +36,20 @@ function stop_deamon($deamon) {
 
 //function to start deamon
 function start_deamon($deamon) {
-  //stop deamon before start a new, to avoid multiple execution of same deamon
-  stop_deamon($deamon);
+    //stop deamon before start a new, to avoid multiple execution of same deamon
+    stop_deamon($deamon);
 
-  $script = dirname(__FILE__) . '/'. $deamon;
+    $script = dirname(__FILE__) . '/'. $deamon;
 
-  //check existence of script
-  if (!file_exists($script))
-    trigger_error("Script $script does not exists.", E_USER_ERROR);
+    //check existence of script
+    if (!file_exists($script))
+        trigger_error("Script $script does not exists.", E_USER_ERROR);
 
-  //run deamon in background mode
-  system('/usr/bin/php ' . $script . ' > /dev/null &');
+    //save edit time of deamon
+    file_put_contents($script_time, filemtime($script));
+  
+    //run deamon in background mode
+    system('/usr/bin/php ' . $script . ' > /dev/null &');
 
   return true;
 }
