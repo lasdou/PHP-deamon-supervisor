@@ -1,6 +1,8 @@
 <?php
 
-//function to get process id of a deamon
+/*
+ * function to get process id of a deamon (in linux environnement)
+ * */
 function get_pid($deamon) {
   $script = dirname(__FILE__) .'/'. $deamon;
   if (!file_exists($script))
@@ -21,7 +23,9 @@ function get_pid($deamon) {
   return $pid;
 }
 
-//function to stop deamon
+/*
+ * function to stop deamon
+ */
 function stop_deamon($deamon) {
   //first : get process id of deamon
   $pid = get_pid($deamon);
@@ -34,22 +38,44 @@ function stop_deamon($deamon) {
   return true;
 }
 
-//function to start deamon
+/*
+ * function to start deamon
+ */
 function start_deamon($deamon) {
-    //stop deamon before start a new, to avoid multiple execution of same deamon
-    stop_deamon($deamon);
+  //stop deamon before start a new, to avoid multiple execution of same deamon
+  stop_deamon($deamon);
 
-    $script = dirname(__FILE__) . '/'. $deamon;
+  $script = dirname(__FILE__) . '/'. $deamon;
 
-    //check existence of script
-    if (!file_exists($script))
-        trigger_error("Script $script does not exists.", E_USER_ERROR);
+  //check existence of script
+  if (!file_exists($script))
+    trigger_error("Script $script does not exists.", E_USER_ERROR);
 
-    //save edit time of deamon
-    file_put_contents($script_time, filemtime($script));
-  
-    //run deamon in background mode
-    system('/usr/bin/php ' . $script . ' > /dev/null &');
+  //file path to store last edit time of deamon
+  $script_time = dirname(__FILE__).'/time_' . $deamon.'.txt';
+
+  //save edit time of deamon
+  file_put_contents($script_time, filemtime($script));
+
+  //run deamon in background mode
+  system('/usr/bin/php ' . $script . ' > /dev/null &');
 
   return true;
+}
+
+/*
+ * function to check if deamon has been modified
+ */
+function is_deamon_modified($deamon)
+{
+  $script = dirname(__FILE__) . '/'. $deamon;
+
+  //check existence of script
+  if (!file_exists($script))
+    trigger_error("Script $script does not exists.", E_USER_ERROR);
+
+  //file path to store last edit time of deamon
+  $script_time = dirname(__FILE__).'/time_' . $deamon.'.txt';
+
+  return !file_exists($script_time) or filemtime($script) > file_get_contents($script_time);
 }
